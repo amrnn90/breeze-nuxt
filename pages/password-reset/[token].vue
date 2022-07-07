@@ -18,7 +18,7 @@ async function submitForm() {
 
   validateSubmission(
     resetPassword({ token: token.value, ...data }),
-    () => {
+    ({ status }) => {
       router.push({ path: "/login", query: { reset: btoa(status) } });
     },
     (validationErrors) => {
