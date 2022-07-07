@@ -62,7 +62,7 @@ npm run dev
 
 ## Authentication Composable
 
-This Nuxt3 application contains a custom `useAuth` comopsable, designed to abstract all authentication logic away from your pages. In addition, the hook can be used to access the currently authenticated user:
+This Nuxt3 application contains a custom `useAuth` composable, designed to abstract all authentication logic away from your pages. In addition, the hook can be used to access the currently authenticated user:
 
 ```vue
 <script setup lang="ts">
