@@ -20,6 +20,9 @@ cd nuxt-backend
 composer require laravel/breeze
 
 php artisan breeze:install api
+
+# Run database migrations
+php artisan migrate
 ```
 
 Next, ensure that your application's `APP_URL` and `FRONTEND_URL` environment variables are set to `http://localhost:8000` and `http://localhost:3000`, respectively.
