@@ -162,7 +162,7 @@ function createPost() {
   <div>
     <button @click="createPost">Create Post</button>
     <pre>{{ errors }}</pre>
-  <div>
+  </div>
 </template>
 ```
 
