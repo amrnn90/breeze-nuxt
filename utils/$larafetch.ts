@@ -1,0 +1,93 @@
+import { $fetch, FetchOptions, FetchError } from "ohmyfetch";
+import { useRouter } from "#imports";
+
+const CSRF_COOKIE = "XSRF-TOKEN";
+const CSRF_HEADER = "X-XSRF_TOKEN";
+
+export async function initCsrf() {
+  const { backendUrl } = useRuntimeConfig().public;
+
+  await $fetch("/sanctum/csrf-cookie", {
+    baseURL: backendUrl,
+    credentials: "include",
+  });
+}
+
+type LaraFetchOptions = FetchOptions & {
+  redirectIfNotAuthenticated?: boolean;
+  redirectIfNotVerified?: boolean;
+};
+
+export async function $larafetch<T>(
+  path: RequestInfo,
+  {
+    redirectIfNotAuthenticated = true,
+    redirectIfNotVerified = true,
+    ...options
+  }: LaraFetchOptions = {}
+): ReturnType<typeof $fetch<T>> {
+  const router = useRouter();
+  const { backendUrl, frontendUrl } = useRuntimeConfig().public;
+
+  let token = useCookie(CSRF_COOKIE).value;
+
+  // on client initiate a csrf request and get it from the cookie set by laravel
+  if (
+    process.client &&
+    ["post", "delete", "put", "patch"].includes(options?.method?.toLowerCase())
+  ) {
+    await initCsrf();
+    // cannot use nuxt composables such as useCookie after an async operation: https://github.com/nuxt/framework/issues/5238
+    token = getCookie(CSRF_COOKIE);
+  }
+
+  let headers: any = {
+    ...options?.headers,
+    ...(token && { [CSRF_HEADER]: token }),
+    accept: "application/json",
+    "content-type": "application/json",
+  };
+
+  if (process.server) {
+    headers = {
+      ...headers,
+      ...useRequestHeaders(["cookie"]),
+      referer: frontendUrl,
+    };
+  }
+
+  try {
+    return await $fetch(path, {
+      baseURL: backendUrl,
+      ...options,
+      headers,
+      credentials: "include",
+    });
+  } catch (error) {
+    if (!(error instanceof FetchError)) throw error;
+
+    // when any of the following redirects occur and the final throw is not catched then nuxt SSR will log the following error:
+    // [unhandledRejection] Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+
+    if (
+      redirectIfNotAuthenticated &&
+      [401, 419].includes(error?.response?.status)
+    ) {
+      router.push("/login");
+    }
+
+    if (redirectIfNotVerified && [409].includes(error?.response?.status)) {
+      router.push("/verify-email");
+    }
+
+    throw error;
+  }
+}
+
+// https://github.com/axios/axios/blob/bdf493cf8b84eb3e3440e72d5725ba0f138e0451/lib/helpers/cookies.js
+function getCookie(name: string) {
+  const match = document.cookie.match(
+    new RegExp("(^|;\\s*)(" + name + ")=([^;]*)")
+  );
+  return match ? decodeURIComponent(match[3]) : null;
+}
