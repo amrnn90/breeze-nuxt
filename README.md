@@ -111,7 +111,7 @@ Only logged in users with unverified emails can access the page, otherwise redir
 
 You have the following auto imported utilities in the `utils` directory:
 
-### `$larafetch`
+### $larafetch
 
 This is a wrapper around Nuxt's `$fetch` that makes it a breeze to make requests to your Laravel app:
 
@@ -133,7 +133,7 @@ const { data: posts } = useAsyncData("posts", () => $larafetch("/api/posts"));
 </template>
 ```
 
-### `validateSubmission`
+### validateSubmission
 
 This is a useful helper to extract validation errors when making `post` or `put` requests:
 
