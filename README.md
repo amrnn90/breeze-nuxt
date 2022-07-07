@@ -94,21 +94,21 @@ definePageMeta({
 </template>
 ```
 
-`auth`
+- `auth`
 
-Only logged in users can access the page, otherwise redirect to `/login` page.
+  Only logged in users can access the page, otherwise redirect to `/login` page.
 
-`guest`
+- `guest`
 
-Only non-logged in users can access the page, otherwise redirect to the `/dashboard` page.
+  Only non-logged in users can access the page, otherwise redirect to the `/dashboard` page.
 
-`verified`
+- `verified`
 
-Only logged in users with verified emails can access the page, otherwise redirect `/login` page (if not logged in) or `/verify-email` page (if logged in).
+  Only logged in users with verified emails can access the page, otherwise redirect `/login` page (if not logged in) or `/verify-email` page (if logged in).
 
-`unverified`
+- `unverified`
 
-Only logged in users with unverified emails can access the page, otherwise redirect to `/login` page (if not logged in) or `/dashboard` page (if logged in). This is used only for the `/verify-email` page.
+  Only logged in users with unverified emails can access the page, otherwise redirect to `/login` page (if not logged in) or `/dashboard` page (if logged in). This is used only for the `/verify-email` page.
 
 ## Utilities
 
