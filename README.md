@@ -124,7 +124,7 @@ This is a wrapper around Nuxt's `$fetch` that makes it a breeze to make requests
 - Redirects to `/login` page when the response contains one of these status codes: `401, 419`
 - Redirects to the `/email-verify` page when the response contains status code: `409`
 
-In order to take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making get requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
+In order to take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `get` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
 
 ```vue
 <script setup lang="ts">
