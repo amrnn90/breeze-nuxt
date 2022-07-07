@@ -1,6 +1,6 @@
 import { FetchError } from "ohmyfetch";
 
-export async function validateSubmission<T>(
+export async function submitRequest<T>(
   fetchable: Promise<T>,
   onSuccess?: (data?: T) => any,
   onValidationError?: (errors?: string[]) => any

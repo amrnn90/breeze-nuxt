@@ -16,7 +16,7 @@ const token = computed(() => route.params.token);
 async function submitForm() {
   errors.value = [];
 
-  validateSubmission(
+  submitRequest(
     resetPassword({ token: token.value, ...data }),
     ({ status }) => {
       router.push({ path: "/login", query: { reset: btoa(status) } });

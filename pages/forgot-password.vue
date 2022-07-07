@@ -11,7 +11,7 @@ async function submitForm() {
   errors.value = [];
   status.value = "";
 
-  validateSubmission(
+  submitRequest(
     forgotPassword(email.value),
     (data) => {
       status.value = data.status;

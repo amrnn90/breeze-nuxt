@@ -14,7 +14,7 @@ const data = reactive({
 async function submitForm() {
   errors.value = [];
 
-  validateSubmission(
+  submitRequest(
     register(data),
     () => {
       router.push("/dashboard");

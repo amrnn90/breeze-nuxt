@@ -18,7 +18,7 @@ async function submitForm() {
   errors.value = [];
   status.value = "";
 
-  validateSubmission(
+  submitRequest(
     login(data),
     () => {
       router.push("/dashboard");

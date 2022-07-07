@@ -136,7 +136,7 @@ const { data: posts } = useAsyncData("posts", () => $larafetch("/api/posts"));
 </template>
 ```
 
-### validateSubmission
+### submitRequest
 
 This is a useful helper to extract validation errors when making `post` or `put` requests:
 
@@ -149,7 +149,7 @@ const data = reactive({
 });
 
 function createPost() {
-  validateSubmission(
+  submitRequest(
     $larafetch("/api/posts", { method: "post", body: data }),
     (result) => {
       console.log(result);
