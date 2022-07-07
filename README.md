@@ -142,7 +142,7 @@ This is a useful helper to extract validation errors when making `post` or `put`
 
 ```vue
 <script setup lang="ts">
-const errors = ref([]);
+const errors = ref({});
 const data = reactive({
   title: "lorem ipsum",
   body: "lorem ipsum",

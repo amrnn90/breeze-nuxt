@@ -1,10 +1,12 @@
 import { FetchError } from "ohmyfetch";
 
+export type ValidationErrors = Record<string, string[]>;
+
 export async function submitRequest<T>(
   fetchable: Promise<T>,
   onSuccess?: (data?: T) => any,
-  onValidationError?: (errors?: string[]) => any
-): Promise<{ data: T; errors: string[] }> {
+  onValidationError?: (errors?: ValidationErrors) => any
+): Promise<{ data: T; errors: ValidationErrors }> {
   try {
     const data = await fetchable;
     await onSuccess?.(data);
@@ -14,7 +16,7 @@ export async function submitRequest<T>(
     if (!(error instanceof FetchError)) throw error;
     if (error.response?.status !== 422) throw error;
 
-    const errors = (error.data?.errors as string[]) || [];
+    const errors = error.data?.errors || {};
     await onValidationError?.(errors);
 
     return { data: null, errors };
