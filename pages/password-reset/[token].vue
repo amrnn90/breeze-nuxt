@@ -5,6 +5,10 @@ const router = useRouter();
 const route = useRoute();
 const { resetPassword } = await useAuth();
 
+if (!route.query.email) {
+  router.push("/");
+}
+
 const data = reactive({
   email: route.query.email,
   password: null,
@@ -55,7 +59,7 @@ async function submitForm() {
 
       <!-- Password -->
       <div class="mt-4">
-        <Label for="password">Password</Label>
+        <Label for="password">New Password</Label>
         <Input
           id="password"
           type="password"
