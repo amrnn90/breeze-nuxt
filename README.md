@@ -90,7 +90,7 @@ definePageMeta({
 </script>
 
 <template>
-  <p>Only logged in users can acces this page.</p>
+  <p>Only logged in users can access this page.</p>
 </template>
 ```
 
@@ -104,7 +104,7 @@ definePageMeta({
 
 - `verified`
 
-  Only logged in users with verified emails can access the page, otherwise redirect `/login` page (if not logged in) or `/verify-email` page (if logged in).
+  Only logged in users with verified emails can access the page, otherwise redirect to `/login` page (if not logged in) or `/verify-email` page (if logged in).
 
 - `unverified`
 
@@ -116,15 +116,15 @@ You have the following auto imported utilities in the `utils` directory:
 
 ### $larafetch
 
-This is a wrapper around Nuxt's `$fetch` that makes it a breeze to make requests to your Laravel app:
+`$larafetch` is a wrapper around Nuxt's `$fetch` that makes it a breeze to make requests to your Laravel app:
 
-- Base URL is already set to `NUXT_PUBLIC_BACKEND_URL` value specified in your `.env`
-- Auto CSRF management
-- Forwards the appropriate headers/cookies when in SSR context
+- Base URL is already set to `NUXT_PUBLIC_BACKEND_URL` value specified in your `.env` file.
+- Auto CSRF management.
+- Forwards the appropriate headers/cookies when in SSR context.
 - Redirects to `/login` page when the response contains one of these status codes: `401, 419`
 - Redirects to the `/verify-email` page when the response contains status code: `409`
 
-In order to take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `get` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
+To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `get` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
 
 ```vue
 <script setup lang="ts">
@@ -138,7 +138,7 @@ const { data: posts } = useAsyncData("posts", () => $larafetch("/api/posts"));
 
 ### submitRequest
 
-This is a useful helper to extract validation errors when making `post` or `put` requests:
+`submitRequest` is a useful helper to extract validation errors when making `post` or `put` requests:
 
 ```vue
 <script setup lang="ts">
