@@ -2,7 +2,7 @@ import { $fetch, FetchOptions, FetchError } from "ohmyfetch";
 import { useRouter } from "#imports";
 
 const CSRF_COOKIE = "XSRF-TOKEN";
-const CSRF_HEADER = "X-XSRF_TOKEN";
+const CSRF_HEADER = "X-XSRF-TOKEN";
 
 export async function initCsrf() {
   const { backendUrl } = useRuntimeConfig().public;
