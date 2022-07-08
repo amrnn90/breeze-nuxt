@@ -60,12 +60,9 @@ async function submitForm() {
       </div>
 
       <div class="flex items-center justify-end mt-4">
-        <Button
-          class="ml-3"
-          :disabled="resetEmailSent"
-          :class="resetEmailSent && 'opacity-70'"
-          >Email Password Reset Link</Button
-        >
+        <Button class="ml-3" :disabled="resetEmailSent">
+          Email Password Reset Link
+        </Button>
       </div>
     </form>
   </AuthCard>

@@ -33,11 +33,7 @@ async function handleResendVerfication() {
     </template>
 
     <div class="mt-4 flex items-center justify-between">
-      <Button
-        @click="handleResendVerfication"
-        :disabled="verificationIsSent"
-        :class="verificationIsSent && 'opacity-70'"
-      >
+      <Button @click="handleResendVerfication" :disabled="verificationIsSent">
         Resend Verification Email
       </Button>
 
