@@ -4,9 +4,14 @@ type User = {
 };
 
 export const fetchCurrentUser = async () => {
-  return await $larafetch<User>("/api/user", {
-    redirectIfNotAuthenticated: false,
-  });
+  try {
+    return await $larafetch<User>("/api/user", {
+      redirectIfNotAuthenticated: false,
+    });
+  } catch (error) {
+    if ([401, 419].includes(error?.response?.status)) return null;
+    throw error;
+  }
 };
 
 export const useUser = () => {
