@@ -14,6 +14,7 @@ export const fetchCurrentUser = async () => {
   }
 };
 
+// Value is initialized in: ~/plugins/auth.ts
 export const useUser = () => {
   return useState<User>("user");
 };
