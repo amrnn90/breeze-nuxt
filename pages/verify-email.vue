@@ -1,7 +1,6 @@
 <script setup lang="ts">
-definePageMeta({
-  middleware: ["unverified"],
-});
+definePageMeta({ middleware: ["unverified"] });
+
 const { logout, resendEmailVerification } = await useAuth();
 const verificationIsSent = ref(false);
 

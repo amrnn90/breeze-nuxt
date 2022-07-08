@@ -84,9 +84,7 @@ You can use any of the provided middlewares in your pages:
 
 ```vue
 <script setup lang="ts">
-definePageMeta({
-  middleware: ["auth"],
-});
+definePageMeta({ middleware: ["auth"] });
 </script>
 
 <template>
@@ -142,11 +140,11 @@ const { data: posts } = useAsyncData("posts", () => $larafetch("/api/posts"));
 
 ```vue
 <script setup lang="ts">
-const errors = ref({});
 const data = reactive({
   title: "lorem ipsum",
   body: "lorem ipsum",
 });
+const errors = ref({});
 
 function createPost() {
   submitRequest(

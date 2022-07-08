@@ -4,15 +4,16 @@ definePageMeta({ middleware: ["guest"] });
 const router = useRouter();
 const route = useRoute();
 const { login } = await useAuth();
-const status = ref(
-  route.query.reset?.length > 0 ? atob(route.query.reset as string) : ""
-);
-const errors = ref([]);
+
 const data = reactive({
   email: null,
   password: null,
   remember_me: null,
 });
+const status = ref(
+  route.query.reset?.length > 0 ? atob(route.query.reset as string) : ""
+);
+const errors = ref([]);
 
 async function submitForm() {
   errors.value = [];

@@ -2,9 +2,10 @@
 definePageMeta({ middleware: ["guest"] });
 
 const { forgotPassword } = await useAuth();
+
 const email = ref(null);
-const status = ref("");
 const resetEmailSent = ref(false);
+const status = ref("");
 const errors = ref([]);
 
 async function submitForm() {
