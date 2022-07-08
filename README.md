@@ -150,7 +150,7 @@ function createPost() {
   submitRequest(
     $larafetch("/api/posts", { method: "post", body: data }),
     (result) => {
-      console.log(result);
+      console.log("Post created successfully: ", result);
     },
     (validationErrors) => {
       errors.value = validationErrors;
