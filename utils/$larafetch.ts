@@ -4,15 +4,6 @@ import { useRouter } from "#imports";
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
 
-export async function initCsrf() {
-  const { backendUrl } = useRuntimeConfig().public;
-
-  await $fetch("/sanctum/csrf-cookie", {
-    baseURL: backendUrl,
-    credentials: "include",
-  });
-}
-
 type LaraFetchOptions = FetchOptions & {
   redirectIfNotAuthenticated?: boolean;
   redirectIfNotVerified?: boolean;
@@ -82,6 +73,15 @@ export async function $larafetch<T>(
 
     throw error;
   }
+}
+
+async function initCsrf() {
+  const { backendUrl } = useRuntimeConfig().public;
+
+  await $fetch("/sanctum/csrf-cookie", {
+    baseURL: backendUrl,
+    credentials: "include",
+  });
 }
 
 // https://github.com/axios/axios/blob/bdf493cf8b84eb3e3440e72d5725ba0f138e0451/lib/helpers/cookies.js
