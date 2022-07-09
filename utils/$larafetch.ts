@@ -4,7 +4,7 @@ import { useRouter } from "#imports";
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
 
-type LaraFetchOptions = FetchOptions & {
+type LarafetchOptions = FetchOptions & {
   redirectIfNotAuthenticated?: boolean;
   redirectIfNotVerified?: boolean;
 };
@@ -15,7 +15,7 @@ export async function $larafetch<T>(
     redirectIfNotAuthenticated = true,
     redirectIfNotVerified = true,
     ...options
-  }: LaraFetchOptions = {}
+  }: LarafetchOptions = {}
 ): ReturnType<typeof $fetch<T>> {
   const router = useRouter();
   const { backendUrl, frontendUrl } = useRuntimeConfig().public;
