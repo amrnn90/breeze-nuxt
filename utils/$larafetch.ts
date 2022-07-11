@@ -3,20 +3,28 @@ import { $fetch, FetchOptions, FetchError } from "ohmyfetch";
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
 
-type LarafetchOptions = FetchOptions & {
+// Unfortunately could not import these types from ohmyfetch, so copied them here
+interface ResponseMap {
+  blob: Blob;
+  text: string;
+  arrayBuffer: ArrayBuffer;
+}
+type ResponseType = keyof ResponseMap | "json";
+// end of copied types
+
+type LarafetchOptions<R extends ResponseType> = FetchOptions<R> & {
   redirectIfNotAuthenticated?: boolean;
   redirectIfNotVerified?: boolean;
 };
 
-export async function $larafetch<T>(
+export async function $larafetch<T, R extends ResponseType = "json">(
   path: RequestInfo,
   {
     redirectIfNotAuthenticated = true,
     redirectIfNotVerified = true,
     ...options
-  }: LarafetchOptions = {}
-): ReturnType<typeof $fetch<T>> {
-  const router = useRouter();
+  }: LarafetchOptions<R> = {}
+) {
   const { backendUrl, frontendUrl } = useRuntimeConfig().public;
 
   let token = useCookie(CSRF_COOKIE).value;
@@ -47,7 +55,7 @@ export async function $larafetch<T>(
   }
 
   try {
-    return await $fetch(path, {
+    return await $fetch<T, R>(path, {
       baseURL: backendUrl,
       ...options,
       headers,
@@ -63,7 +71,7 @@ export async function $larafetch<T>(
       redirectIfNotAuthenticated &&
       [401, 419].includes(error?.response?.status)
     ) {
-      await navigateTo('/login');
+      await navigateTo("/login");
     }
 
     if (redirectIfNotVerified && [409].includes(error?.response?.status)) {
