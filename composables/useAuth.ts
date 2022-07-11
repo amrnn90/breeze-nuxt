@@ -8,7 +8,7 @@ export const useUser = () => {
   return useState<User>("user");
 };
 
-export const useAuth = async () => {
+export const useAuth = () => {
   const router = useRouter();
 
   const user = useUser();

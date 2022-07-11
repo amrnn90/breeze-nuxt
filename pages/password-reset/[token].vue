@@ -3,7 +3,7 @@ definePageMeta({ middleware: ["guest"] });
 
 const router = useRouter();
 const route = useRoute();
-const { resetPassword } = await useAuth();
+const { resetPassword } = useAuth();
 
 if (!route.query.email) {
   router.push("/");

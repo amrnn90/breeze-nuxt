@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ middleware: ["guest"] });
 
-const { forgotPassword } = await useAuth();
+const { forgotPassword } = useAuth();
 
 const email = ref(null);
 const resetEmailSent = ref(false);

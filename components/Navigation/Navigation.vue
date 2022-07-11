@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { user, logout } = await useAuth();
+const { user, logout } = useAuth();
 const open = ref(false);
 </script>
 
