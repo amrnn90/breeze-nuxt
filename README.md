@@ -58,7 +58,8 @@ Finally, run the application via `npm run dev`. The application will be availabl
 npm run dev
 ```
 
-> Note: Currently, we recommend using `localhost` during local development of your backend and frontend to avoid CORS "Same-Origin" issues.
+> **Note**  
+> Currently, we recommend using `localhost` during local development of your backend and frontend to avoid CORS "Same-Origin" issues.
 
 ## Authentication Composable
 
@@ -122,7 +123,8 @@ You have the following auto imported utilities in the `utils` directory:
 - Redirects to `/login` page when the response contains one of these status codes: `401, 419`
 - Redirects to the `/verify-email` page when the response contains status code: `409`
 
-To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `get` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
+> **Note**  
+> To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `get` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
 
 ```vue
 <script setup lang="ts">
