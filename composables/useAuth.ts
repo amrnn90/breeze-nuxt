@@ -5,7 +5,7 @@ type User = {
 
 // Value is initialized in: ~/plugins/auth.ts
 export const useUser = () => {
-  return useState<User>("user");
+  return useState<User>("user", () => undefined);
 };
 
 export const useAuth = () => {
