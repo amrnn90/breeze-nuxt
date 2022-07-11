@@ -1,5 +1,4 @@
 import { $fetch, FetchOptions, FetchError } from "ohmyfetch";
-import { useRouter } from "#imports";
 
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
@@ -64,11 +63,11 @@ export async function $larafetch<T>(
       redirectIfNotAuthenticated &&
       [401, 419].includes(error?.response?.status)
     ) {
-      router.push("/login");
+      await navigateTo('/login');
     }
 
     if (redirectIfNotVerified && [409].includes(error?.response?.status)) {
-      router.push("/verify-email");
+      await navigateTo("/verify-email");
     }
 
     throw error;
