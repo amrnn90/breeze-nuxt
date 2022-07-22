@@ -124,7 +124,7 @@ You have the following auto imported utilities in the `utils` directory:
 - Redirects to the `/verify-email` page when the response contains status code: `409`
 
 > **Note**  
-> To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `get` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
+> To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `GET` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
 
 ```vue
 <script setup lang="ts">
@@ -138,7 +138,7 @@ const { data: posts } = useAsyncData("posts", () => $larafetch("/api/posts"));
 
 ### submitRequest
 
-`submitRequest` is a useful helper to extract validation errors when making `post` or `put` requests:
+`submitRequest` is a useful helper to extract validation errors when making `POST` or `PUT` requests:
 
 ```vue
 <script setup lang="ts">
