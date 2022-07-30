@@ -64,7 +64,7 @@ export async function $larafetch<T, R extends ResponseType = "json">(
   } catch (error) {
     if (!(error instanceof FetchError)) throw error;
 
-    // when any of the following redirects occur and the final throw is not catched then nuxt SSR will log the following error:
+    // when any of the following redirects occur and the final throw is not caught then nuxt SSR will log the following error:
     // [unhandledRejection] Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
 
     if (
