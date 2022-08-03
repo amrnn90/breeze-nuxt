@@ -128,7 +128,7 @@ You have the following auto imported utilities in the `utils` directory:
 
 ```vue
 <script setup lang="ts">
-const { data: posts } = useAsyncData("posts", () => $larafetch("/api/posts"));
+const { data: posts } = await useAsyncData("posts", () => $larafetch("/api/posts"));
 </script>
 
 <template>
