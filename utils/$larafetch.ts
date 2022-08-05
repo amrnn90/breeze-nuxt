@@ -69,13 +69,21 @@ export async function $larafetch<T, R extends ResponseType = "json">(
 
     if (
       redirectIfNotAuthenticated &&
-      [401, 419].includes(error?.response?.status)
+      [401, 419].includes(error.response?.status)
     ) {
       await navigateTo("/login");
     }
 
-    if (redirectIfNotVerified && [409].includes(error?.response?.status)) {
+    if (redirectIfNotVerified && [409].includes(error.response?.status)) {
       await navigateTo("/verify-email");
+    }
+
+    if ([500].includes(error.response?.status)) {
+      console.error(
+        "===Backend Error===\n",
+        error.data?.message,
+        "\n===================\n"
+      );
     }
 
     throw error;
