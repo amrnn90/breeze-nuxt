@@ -79,11 +79,7 @@ export async function $larafetch<T, R extends ResponseType = "json">(
     }
 
     if ([500].includes(error.response?.status)) {
-      console.error(
-        "===Backend Error===\n",
-        error.data?.message,
-        "\n===================\n"
-      );
+      console.error("[Laravel Error]", error.data?.message, error.data);
     }
 
     throw error;
