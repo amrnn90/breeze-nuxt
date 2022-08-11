@@ -10,15 +10,15 @@ if (!route.query.email) {
 }
 
 const data = reactive({
-  email: route.query.email,
+  email: route.query.email as string,
   password: null,
   password_confirmation: null,
 });
-const errors = ref([]);
+const errors = ref<Record<string, string[]>>({});
 const token = computed(() => route.params.token);
 
 async function submitForm() {
-  errors.value = [];
+  errors.value = {};
 
   submitRequest(
     resetPassword({ token: token.value, ...data }),
@@ -26,7 +26,7 @@ async function submitForm() {
       router.push({ path: "/login", query: { reset: btoa(status) } });
     },
     (validationErrors) => {
-      errors.value = Object.values(validationErrors).flat();
+      errors.value = validationErrors;
     }
   );
 }
@@ -40,9 +40,6 @@ async function submitForm() {
       </NuxtLink>
     </template>
 
-    <!-- Validation Errors -->
-    <AuthValidationErrors class="mb-4" :errors="errors" />
-
     <form @submit.prevent="submitForm">
       <!-- Email Address -->
       <div class="mt-4">
@@ -52,6 +49,7 @@ async function submitForm() {
           type="email"
           class="block mt-1 w-full opacity-80"
           v-model="data.email"
+          :errors="errors.email"
           disabled
           required
         />
@@ -65,6 +63,7 @@ async function submitForm() {
           type="password"
           class="block mt-1 w-full"
           v-model="data.password"
+          :errors="errors.password"
           required
         />
       </div>
@@ -77,6 +76,7 @@ async function submitForm() {
           type="password"
           class="block mt-1 w-full"
           v-model="data.password_confirmation"
+          :errors="errors.password_confirmation"
           required
         />
       </div>

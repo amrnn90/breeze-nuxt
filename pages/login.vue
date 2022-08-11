@@ -13,10 +13,10 @@ const data = reactive({
 const status = ref(
   route.query.reset?.length > 0 ? atob(route.query.reset as string) : ""
 );
-const errors = ref([]);
+const errors = ref<Record<string, string[]>>({});
 
 async function submitForm() {
-  errors.value = [];
+  errors.value = {};
   status.value = "";
 
   submitRequest(
@@ -25,7 +25,8 @@ async function submitForm() {
       router.push("/dashboard");
     },
     (validationErrors) => {
-      errors.value = Object.values(validationErrors).flat();
+      // errors.value = Object.values(validationErrors).flat();
+      errors.value = validationErrors;
     }
   );
 }
@@ -42,9 +43,6 @@ async function submitForm() {
     <!-- Session Status -->
     <AuthSessionStatus class="mb-4" :status="status" />
 
-    <!-- Validation Errors -->
-    <AuthValidationErrors class="mb-4" :errors="errors" />
-
     <form @submit.prevent="submitForm">
       <!-- Email Address -->
       <div>
@@ -54,6 +52,7 @@ async function submitForm() {
           type="email"
           class="block mt-1 w-full"
           v-model="data.email"
+          :errors="errors.email?.[0]"
           required
           autoFocus
         />
@@ -67,6 +66,7 @@ async function submitForm() {
           type="password"
           class="block mt-1 w-full"
           v-model="data.password"
+          :errors="errors.password"
           required
           autoComplete="current-password"
         />

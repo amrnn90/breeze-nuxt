@@ -6,10 +6,10 @@ const { forgotPassword } = useAuth();
 const email = ref(null);
 const resetEmailSent = ref(false);
 const status = ref("");
-const errors = ref([]);
+const errors = ref<Record<string, string[]>>({});
 
 async function submitForm() {
-  errors.value = [];
+  errors.value = {};
   status.value = "";
 
   submitRequest(
@@ -19,7 +19,7 @@ async function submitForm() {
       resetEmailSent.value = true;
     },
     (validationErrors) => {
-      errors.value = Object.values(validationErrors).flat();
+      errors.value = validationErrors;
     }
   );
 }
@@ -42,9 +42,6 @@ async function submitForm() {
     <!-- Session Status -->
     <AuthSessionStatus class="mb-4" :status="status" />
 
-    <!-- Validation Errors -->
-    <AuthValidationErrors class="mb-4" :errors="errors" />
-
     <form @submit.prevent="submitForm">
       <!-- Email Address -->
       <div>
@@ -54,6 +51,7 @@ async function submitForm() {
           type="email"
           class="block mt-1 w-full"
           v-model="email"
+          :errors="errors.email"
           required
           autoFocus
         />

@@ -10,10 +10,10 @@ const data = reactive({
   password: null,
   password_confirmation: null,
 });
-const errors = ref([]);
+const errors = ref<Record<string, string[]>>({});
 
 async function submitForm() {
-  errors.value = [];
+  errors.value = {};
 
   submitRequest(
     register(data),
@@ -21,7 +21,7 @@ async function submitForm() {
       router.push("/dashboard");
     },
     (validationErrors) => {
-      errors.value = Object.values(validationErrors).flat();
+      errors.value = validationErrors;
     }
   );
 }
@@ -35,9 +35,6 @@ async function submitForm() {
       </NuxtLink>
     </template>
 
-    <!-- Validation Errors -->
-    <AuthValidationErrors class="mb-4" :errors="errors" />
-
     <form @submit.prevent="submitForm">
       <!-- Name -->
       <div>
@@ -47,6 +44,7 @@ async function submitForm() {
           type="text"
           class="block mt-1 w-full"
           v-model="data.name"
+          :errors="errors.name"
           required
           autoFocus
         />
@@ -60,6 +58,7 @@ async function submitForm() {
           type="email"
           class="block mt-1 w-full"
           v-model="data.email"
+          :errors="errors.email"
           required
         />
       </div>
@@ -72,6 +71,7 @@ async function submitForm() {
           type="password"
           class="block mt-1 w-full"
           v-model="data.password"
+          :errors="errors.password"
           required
           autoComplete="new-password"
         />
@@ -85,6 +85,7 @@ async function submitForm() {
           type="password"
           class="block mt-1 w-full"
           v-model="data.password_confirmation"
+          :errors="errors.password_confirmation"
           required
         />
       </div>
