@@ -27,7 +27,7 @@ php artisan migrate
 
 Next, ensure that your application's `APP_URL` and `FRONTEND_URL` environment variables are set to `http://localhost:8000` and `http://localhost:3000`, respectively.
 
-Also edit the `RouteServiceProvider.php` file and set the `Home` constant to `/dashboard`, this is needed when using email verification to correctly redirect the user:
+Also edit the `RouteServiceProvider.php` file and set the `HOME` constant to `/dashboard`, this is needed when using email verification to correctly redirect the user:
 
 ```php
 class RouteServiceProvider extends ServiceProvider
@@ -128,7 +128,9 @@ You have the following auto imported utilities in the `utils` directory:
 
 ```vue
 <script setup lang="ts">
-const { data: posts } = await useAsyncData("posts", () => $larafetch("/api/posts"));
+const { data: posts } = await useAsyncData("posts", () =>
+  $larafetch("/api/posts")
+);
 </script>
 
 <template>
