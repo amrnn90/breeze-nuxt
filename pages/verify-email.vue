@@ -4,7 +4,7 @@ definePageMeta({ middleware: ["unverified"] });
 const { logout, resendEmailVerification } = useAuth();
 const verificationIsSent = ref(false);
 
-async function handleResendVerfication() {
+async function handleResendVerification() {
   const status = (await resendEmailVerification()).status;
   if (status === "verification-link-sent") {
     verificationIsSent.value = true;
@@ -33,7 +33,7 @@ async function handleResendVerfication() {
     </template>
 
     <div class="mt-4 flex items-center justify-between">
-      <Button @click="handleResendVerfication" :disabled="verificationIsSent">
+      <Button @click="handleResendVerification" :disabled="verificationIsSent">
         Resend Verification Email
       </Button>
 
