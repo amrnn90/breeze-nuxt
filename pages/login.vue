@@ -74,7 +74,7 @@ async function submitForm() {
 
       <!-- Remember Me -->
       <div class="block mt-4">
-        <label htmlFor="remember_me" class="inline-flex items-center">
+        <label for="remember" class="inline-flex items-center">
           <input
             id="remember"
             type="checkbox"
