@@ -17,7 +17,7 @@ laravel new nuxt-backend
 cd nuxt-backend
 
 # Install Breeze and dependencies...
-composer require laravel/breeze
+composer require laravel/breeze --dev
 
 php artisan breeze:install api
 
