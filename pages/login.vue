@@ -25,7 +25,6 @@ async function submitForm() {
       router.push("/dashboard");
     },
     (validationErrors) => {
-      // errors.value = Object.values(validationErrors).flat();
       errors.value = validationErrors;
     }
   );
