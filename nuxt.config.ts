@@ -9,7 +9,7 @@ export default defineNuxtConfig({
       frontendUrl: "http://localhost:3000",
     },
   },
-  autoImports: {
+  imports: {
     dirs: ["./utils"],
   },
 });
