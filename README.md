@@ -27,7 +27,7 @@ php artisan migrate
 
 Next, ensure that your application's `APP_URL` and `FRONTEND_URL` environment variables are set to `http://localhost:8000` and `http://localhost:3000`, respectively.
 
-Also edit the `RouteServiceProvider.php` file and set the `HOME` constant to `/dashboard`, this is needed when using email verification to correctly redirect the user:
+Also, when using email verification, you can change the page your users are redirected to by updating `HOME` constant in your `RouteServiceProvider.php` file:
 
 ```php
 class RouteServiceProvider extends ServiceProvider
