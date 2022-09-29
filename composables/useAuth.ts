@@ -35,7 +35,7 @@ export const useAuth = () => {
   }
 
   async function resendEmailVerification() {
-    return $larafetch<{ status: string }>("/email/verification-notification", {
+    return await $larafetch<{ status: string }>("/email/verification-notification", {
       method: "post",
     });
   }
