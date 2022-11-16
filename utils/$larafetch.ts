@@ -26,6 +26,7 @@ export async function $larafetch<T, R extends ResponseType = "json">(
   }: LarafetchOptions<R> = {}
 ) {
   const { backendUrl, frontendUrl } = useRuntimeConfig().public;
+  const router = useRouter()
 
   let token = useCookie(CSRF_COOKIE).value;
 
@@ -71,11 +72,11 @@ export async function $larafetch<T, R extends ResponseType = "json">(
       redirectIfNotAuthenticated &&
       [401, 419].includes(error.response?.status)
     ) {
-      await navigateTo("/login");
+      await router.push('/login')
     }
 
     if (redirectIfNotVerified && [409].includes(error.response?.status)) {
-      await navigateTo("/verify-email");
+      await router.push('/verify-email')
     }
 
     if ([500].includes(error.response?.status)) {
