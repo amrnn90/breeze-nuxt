@@ -22,11 +22,11 @@ async function submitForm() {
 
   submitRequest(
     resetPassword({ token: token.value, ...data }),
-    ({ status }) => {
-      router.push({ path: "/login", query: { reset: btoa(status) } });
+    (result) => {
+      router.push({ path: "/login", query: { reset: btoa(result?.status ?? "") } });
     },
     (validationErrors) => {
-      errors.value = validationErrors;
+      errors.value = validationErrors ?? {};
     }
   );
 }

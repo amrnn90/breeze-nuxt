@@ -8,10 +8,10 @@ const { login } = useAuth();
 const data = reactive({
   email: null,
   password: null,
-  remember: null,
+  remember: false,
 });
 const status = ref(
-  route.query.reset?.length > 0 ? atob(route.query.reset as string) : ""
+  (route.query.reset ?? "").length > 0 ? atob(route.query.reset as string) : ""
 );
 const errors = ref<Record<string, string[]>>({});
 
@@ -25,7 +25,7 @@ async function submitForm() {
       router.push("/dashboard");
     },
     (validationErrors) => {
-      errors.value = validationErrors;
+      errors.value = validationErrors ?? {};
     }
   );
 }

@@ -15,11 +15,11 @@ async function submitForm() {
   submitRequest(
     forgotPassword(email.value),
     (data) => {
-      status.value = data.status;
+      status.value = data?.status ?? "";
       resetEmailSent.value = true;
     },
     (validationErrors) => {
-      errors.value = validationErrors;
+      errors.value = validationErrors ?? {};
     }
   );
 }
