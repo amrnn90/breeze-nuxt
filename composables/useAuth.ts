@@ -3,9 +3,28 @@ type User = {
   email?: string;
 };
 
+type LoginCredentials = {
+  email: string;
+  password: string;
+}
+
+type RegisterCredentials = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+type ResetPasswordCredentials = {
+  email: string;
+  password: string;
+  password_confirmation: string;
+  token: string;
+}
+
 // Value is initialized in: ~/plugins/auth.ts
 export const useUser = () => {
-  return useState<User>("user", () => undefined);
+  return useState<User | undefined | null>("user", () => undefined);
 };
 
 export const useAuth = () => {
@@ -22,14 +41,14 @@ export const useAuth = () => {
     }
   }
 
-  async function login(credentials) {
+  async function login(credentials:LoginCredentials) {
     if (isLoggedIn.value) return;
 
     await $larafetch("/login", { method: "post", body: credentials });
     await refresh();
   }
 
-  async function register(credentials) {
+  async function register(credentials:RegisterCredentials) {
     await $larafetch("/register", { method: "post", body: credentials });
     await refresh();
   }
@@ -49,14 +68,14 @@ export const useAuth = () => {
     await router.push("/login");
   }
 
-  async function forgotPassword(email) {
+  async function forgotPassword(email:string) {
     return await $larafetch<{ status: string }>("/forgot-password", {
       method: "post",
       body: { email },
     });
   }
 
-  async function resetPassword(credentials) {
+  async function resetPassword(credentials:ResetPasswordCredentials) {
     return await $larafetch<{ status: string }>("/reset-password", {
       method: "post",
       body: credentials,
@@ -81,7 +100,7 @@ export const fetchCurrentUser = async () => {
     return await $larafetch<User>("/api/user", {
       redirectIfNotAuthenticated: false,
     });
-  } catch (error) {
+  } catch (error:any) {
     if ([401, 419].includes(error?.response?.status)) return null;
     throw error;
   }
