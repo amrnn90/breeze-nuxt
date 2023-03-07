@@ -1,4 +1,4 @@
-import { FetchError } from "ohmyfetch";
+import { FetchError } from "ofetch";
 
 export type ValidationErrors = Record<string, string[]> | null;
 

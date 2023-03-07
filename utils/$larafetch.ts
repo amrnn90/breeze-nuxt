@@ -1,4 +1,4 @@
-import { $fetch, FetchOptions, FetchError } from "ohmyfetch";
+import { $fetch, FetchOptions, FetchError } from "ofetch";
 
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
