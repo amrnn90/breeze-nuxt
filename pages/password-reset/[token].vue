@@ -11,8 +11,8 @@ if (!route.query.email) {
 
 const data = reactive({
   email: route.query.email as string,
-  password: null,
-  password_confirmation: null,
+  password: "",
+  password_confirmation: "",
 });
 const errors = ref<Record<string, string[]>>({});
 const token = computed(() => route.params.token);
@@ -21,7 +21,7 @@ async function submitForm() {
   errors.value = {};
 
   submitRequest(
-    resetPassword({ token: token.value, ...data }),
+    resetPassword({ token: token.value as string, ...data }),
     (result) => {
       router.push({ path: "/login", query: { reset: btoa(result?.status ?? "") } });
     },

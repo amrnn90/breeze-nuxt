@@ -3,7 +3,7 @@ definePageMeta({ middleware: ["guest"] });
 
 const { forgotPassword } = useAuth();
 
-const email = ref(null);
+const email = ref("");
 const resetEmailSent = ref(false);
 const status = ref("");
 const errors = ref<Record<string, string[]>>({});

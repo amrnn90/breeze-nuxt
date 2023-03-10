@@ -6,8 +6,8 @@ const route = useRoute();
 const { login } = useAuth();
 
 const data = reactive({
-  email: null,
-  password: null,
+  email: "",
+  password: "",
   remember: false,
 });
 const status = ref(

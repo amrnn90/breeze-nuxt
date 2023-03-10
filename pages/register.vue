@@ -5,10 +5,10 @@ const router = useRouter();
 const { register } = useAuth();
 
 const data = reactive({
-  name: null,
-  email: null,
-  password: null,
-  password_confirmation: null,
+  name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
 });
 const errors = ref<Record<string, string[]>>({});
 
