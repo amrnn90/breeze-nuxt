@@ -23,7 +23,10 @@ async function submitForm() {
   submitRequest(
     resetPassword({ token: token.value as string, ...data }),
     (result) => {
-      router.push({ path: "/login", query: { reset: btoa(result?.status ?? "") } });
+      router.push({
+        path: "/login",
+        query: { reset: btoa(result?.status ?? "") },
+      });
     },
     (validationErrors) => {
       errors.value = validationErrors ?? {};
