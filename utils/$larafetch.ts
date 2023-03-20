@@ -43,10 +43,9 @@ export async function $larafetch<T, R extends ResponseType = "json">(
   }
 
   let headers: any = {
+    accept: "application/json",
     ...options?.headers,
     ...(token && { [CSRF_HEADER]: token }),
-    accept: "application/json",
-    "content-type": "application/json",
   };
 
   if (process.server) {
