@@ -3,7 +3,7 @@ import { $fetch, FetchOptions, FetchError } from "ofetch";
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
 
-// Unfortunately could not import these types from ohmyfetch, so copied them here
+// could not import these types from ofetch, so copied them here
 interface ResponseMap {
   blob: Blob;
   text: string;
@@ -38,7 +38,8 @@ export async function $larafetch<T, R extends ResponseType = "json">(
     )
   ) {
     await initCsrf();
-    // cannot use nuxt composables such as useCookie after an async operation: https://github.com/nuxt/framework/issues/5238
+    // cannot use nuxt composables such as useCookie after an async operation:
+    // https://github.com/nuxt/framework/issues/5238
     token = getCookie(CSRF_COOKIE);
   }
 
