@@ -10,20 +10,18 @@ const data = reactive({
   password: "",
   password_confirmation: "",
 });
-const errors = ref<Record<string, string[]>>({});
+
+const {
+  submit,
+  inProgress,
+  succeeded,
+  validationErrors: errors,
+} = useSubmit(() => register(data));
 
 async function submitForm() {
-  errors.value = {};
+  await submit();
 
-  submitRequest(
-    register(data),
-    () => {
-      router.push("/dashboard");
-    },
-    (validationErrors) => {
-      errors.value = validationErrors ?? {};
-    }
-  );
+  if (succeeded.value) router.push("/dashboard");
 }
 </script>
 
@@ -98,7 +96,7 @@ async function submitForm() {
           Already registered?
         </NuxtLink>
 
-        <Button class="ml-3">Register</Button>
+        <Button class="ml-3" :disabled="inProgress">Register</Button>
       </div>
     </form>
   </AuthCard>

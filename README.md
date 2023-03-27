@@ -61,7 +61,9 @@ npm run dev
 > **Note**  
 > Currently, we recommend using `localhost` during local development of your backend and frontend to avoid CORS "Same-Origin" issues.
 
-## Authentication Composable
+## Composables
+
+### useAuth
 
 This Nuxt3 application contains a custom `useAuth` composable, designed to abstract all authentication logic away from your pages. In addition, the composable can be used to access the currently authenticated user:
 
@@ -75,6 +77,35 @@ const { user, logout } = useAuth();
     <p>{{ user.name }}</p>
 
     <button @click="logout">Sign out</button>
+  </div>
+</template>
+```
+
+### useSubmit
+
+`useSubmit` is a useful composable to track validation errors and loading state when making `POST` or `PUT` requests:
+
+```vue
+<script setup lang="ts">
+const data = reactive({
+  title: "lorem ipsum",
+  body: "lorem ipsum",
+});
+
+const { submit, inProgress, validationErrors, succeeded } = useSubmit(() =>
+  $larafetch("/api/posts", { method: "post", body: data })
+);
+
+async function createPost() {
+  const result = await submit();
+  if (succeeded.value) console.log("Post created successfully", result);
+}
+</script>
+
+<template>
+  <div>
+    <button @click="createPost" :disabled="inProgress">Create Post</button>
+    <pre>{{ validationErrors }}</pre>
   </div>
 </template>
 ```
@@ -135,39 +166,6 @@ const { data: posts } = await useAsyncData("posts", () =>
 
 <template>
   <pre>{{ posts }}</pre>
-</template>
-```
-
-### submitRequest
-
-`submitRequest` is a useful helper to extract validation errors when making `POST` or `PUT` requests:
-
-```vue
-<script setup lang="ts">
-const data = reactive({
-  title: "lorem ipsum",
-  body: "lorem ipsum",
-});
-const errors = ref({});
-
-function createPost() {
-  submitRequest(
-    $larafetch("/api/posts", { method: "post", body: data }),
-    (result) => {
-      console.log("Post created successfully: ", result);
-    },
-    (validationErrors) => {
-      errors.value = validationErrors;
-    }
-  );
-}
-</script>
-
-<template>
-  <div>
-    <button @click="createPost">Create Post</button>
-    <pre>{{ errors }}</pre>
-  </div>
 </template>
 ```
 

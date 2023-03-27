@@ -6,22 +6,19 @@ const { forgotPassword } = useAuth();
 const email = ref("");
 const resetEmailSent = ref(false);
 const status = ref("");
-const errors = ref<Record<string, string[]>>({});
+
+const {
+  submit,
+  inProgress,
+  succeeded,
+  validationErrors: errors,
+} = useSubmit(() => forgotPassword(email.value));
 
 async function submitForm() {
-  errors.value = {};
   status.value = "";
+  status.value = (await submit())?.status ?? "";
 
-  submitRequest(
-    forgotPassword(email.value),
-    (data) => {
-      status.value = data?.status ?? "";
-      resetEmailSent.value = true;
-    },
-    (validationErrors) => {
-      errors.value = validationErrors ?? {};
-    }
-  );
+  if (succeeded.value) resetEmailSent.value = true;
 }
 </script>
 
@@ -52,13 +49,14 @@ async function submitForm() {
           class="block mt-1 w-full"
           v-model="email"
           :errors="errors.email"
+          :disabled="resetEmailSent"
           required
           autoFocus
         />
       </div>
 
       <div class="flex items-center justify-end mt-4">
-        <Button class="ml-3" :disabled="resetEmailSent">
+        <Button class="ml-3" :disabled="inProgress || resetEmailSent">
           Email Password Reset Link
         </Button>
       </div>

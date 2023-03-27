@@ -13,21 +13,19 @@ const data = reactive({
 const status = ref(
   (route.query.reset ?? "").length > 0 ? atob(route.query.reset as string) : ""
 );
-const errors = ref<Record<string, string[]>>({});
+
+const {
+  submit,
+  inProgress,
+  succeeded,
+  validationErrors: errors,
+} = useSubmit(() => login(data));
 
 async function submitForm() {
-  errors.value = {};
   status.value = "";
+  await submit();
 
-  submitRequest(
-    login(data),
-    () => {
-      router.push("/dashboard");
-    },
-    (validationErrors) => {
-      errors.value = validationErrors ?? {};
-    }
-  );
+  if (succeeded.value) router.push("/dashboard");
 }
 </script>
 
@@ -93,7 +91,7 @@ async function submitForm() {
           Forgot your password?
         </NuxtLink>
 
-        <Button class="ml-3">Login</Button>
+        <Button class="ml-3" :disabled="inProgress">Login</Button>
       </div>
     </form>
   </AuthCard>

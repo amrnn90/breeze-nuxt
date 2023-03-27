@@ -14,24 +14,22 @@ const data = reactive({
   password: "",
   password_confirmation: "",
 });
-const errors = ref<Record<string, string[]>>({});
 const token = computed(() => route.params.token);
+const {
+  submit,
+  inProgress,
+  succeeded,
+  validationErrors: errors,
+} = useSubmit(() => resetPassword({ token: token.value as string, ...data }));
 
 async function submitForm() {
-  errors.value = {};
+  const result = await submit();
 
-  submitRequest(
-    resetPassword({ token: token.value as string, ...data }),
-    (result) => {
-      router.push({
-        path: "/login",
-        query: { reset: btoa(result?.status ?? "") },
-      });
-    },
-    (validationErrors) => {
-      errors.value = validationErrors ?? {};
-    }
-  );
+  if (succeeded.value)
+    router.push({
+      path: "/login",
+      query: { reset: btoa(result?.status ?? "") },
+    });
 }
 </script>
 
@@ -85,7 +83,7 @@ async function submitForm() {
       </div>
 
       <div class="flex items-center justify-end mt-4">
-        <Button>Reset Password</Button>
+        <Button :disabled="inProgress">Reset Password</Button>
       </div>
     </form>
   </AuthCard>
