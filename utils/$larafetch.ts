@@ -12,7 +12,7 @@ interface ResponseMap {
 type ResponseType = keyof ResponseMap | "json";
 // end of copied types
 
-type LarafetchOptions<R extends ResponseType> = FetchOptions<R> & {
+export type LarafetchOptions<R extends ResponseType> = FetchOptions<R> & {
   redirectIfNotAuthenticated?: boolean;
   redirectIfNotVerified?: boolean;
 };

@@ -1,21 +1,21 @@
-type User = {
+export type User = {
   name: string;
   email?: string;
 };
 
-type LoginCredentials = {
+export type LoginCredentials = {
   email: string;
   password: string;
 };
 
-type RegisterCredentials = {
+export type RegisterCredentials = {
   name: string;
   email: string;
   password: string;
   password_confirmation: string;
 };
 
-type ResetPasswordCredentials = {
+export type ResetPasswordCredentials = {
   email: string;
   password: string;
   password_confirmation: string;

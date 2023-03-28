@@ -1,6 +1,6 @@
 export type ValidationErrors = Record<string, string[]>;
 
-type UseSubmitOptions = {
+export type UseSubmitOptions = {
   onSuccess?: (result: any) => any;
   onError?: (error: Error) => any;
 };
