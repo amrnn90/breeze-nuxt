@@ -17,16 +17,16 @@ const status = ref(
 const {
   submit,
   inProgress,
-  succeeded,
   validationErrors: errors,
-} = useSubmit(() => login(data));
-
-async function submitForm() {
-  status.value = "";
-  await submit();
-
-  if (succeeded.value) router.push("/dashboard");
-}
+} = useSubmit(
+  () => {
+    status.value = "";
+    return login(data);
+  },
+  {
+    onSuccess: () => router.push("/dashboard"),
+  }
+);
 </script>
 
 <template>
@@ -40,7 +40,7 @@ async function submitForm() {
     <!-- Session Status -->
     <AuthSessionStatus class="mb-4" :status="status" />
 
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submit">
       <!-- Email Address -->
       <div>
         <Label for="email">Email</Label>

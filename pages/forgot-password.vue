@@ -10,16 +10,19 @@ const status = ref("");
 const {
   submit,
   inProgress,
-  succeeded,
   validationErrors: errors,
-} = useSubmit(() => forgotPassword(email.value));
-
-async function submitForm() {
-  status.value = "";
-  status.value = (await submit())?.status ?? "";
-
-  if (succeeded.value) resetEmailSent.value = true;
-}
+} = useSubmit(
+  () => {
+    status.value = "";
+    return forgotPassword(email.value);
+  },
+  {
+    onSuccess: (result) => {
+      status.value = result?.status ?? "";
+      resetEmailSent.value = true;
+    },
+  }
+);
 </script>
 
 <template>
@@ -39,7 +42,7 @@ async function submitForm() {
     <!-- Session Status -->
     <AuthSessionStatus class="mb-4" :status="status" />
 
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submit">
       <!-- Email Address -->
       <div>
         <Label for="email">Email</Label>

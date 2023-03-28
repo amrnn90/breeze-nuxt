@@ -14,15 +14,10 @@ const data = reactive({
 const {
   submit,
   inProgress,
-  succeeded,
   validationErrors: errors,
-} = useSubmit(() => register(data));
-
-async function submitForm() {
-  await submit();
-
-  if (succeeded.value) router.push("/dashboard");
-}
+} = useSubmit(() => register(data), {
+  onSuccess: () => router.push("/dashboard"),
+});
 </script>
 
 <template>
@@ -33,7 +28,7 @@ async function submitForm() {
       </NuxtLink>
     </template>
 
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submit">
       <!-- Name -->
       <div>
         <Label for="name">Name</Label>

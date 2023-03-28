@@ -1,6 +1,13 @@
 export type ValidationErrors = Record<string, string[]>;
 
-export function useSubmit<T>(fetchable: () => Promise<T>) {
+type UseSubmitOptions = {
+  onSuccess?: (result: any) => any;
+};
+
+export function useSubmit<T>(
+  fetchable: () => Promise<T>,
+  options: UseSubmitOptions = {}
+) {
   const validationErrors = ref<ValidationErrors>({});
   const error = ref<Error | null>(null);
   const inProgress = ref(false);
@@ -15,6 +22,7 @@ export function useSubmit<T>(fetchable: () => Promise<T>) {
     try {
       const data = await fetchable();
       succeeded.value = true;
+      options?.onSuccess?.(data);
       return data;
     } catch (e: any) {
       error.value = e;

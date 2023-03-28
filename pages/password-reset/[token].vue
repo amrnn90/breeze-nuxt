@@ -18,19 +18,14 @@ const token = computed(() => route.params.token);
 const {
   submit,
   inProgress,
-  succeeded,
   validationErrors: errors,
-} = useSubmit(() => resetPassword({ token: token.value as string, ...data }));
-
-async function submitForm() {
-  const result = await submit();
-
-  if (succeeded.value)
+} = useSubmit(() => resetPassword({ token: token.value as string, ...data }), {
+  onSuccess: (result) =>
     router.push({
       path: "/login",
       query: { reset: btoa(result?.status ?? "") },
-    });
-}
+    }),
+});
 </script>
 
 <template>
@@ -41,7 +36,7 @@ async function submitForm() {
       </NuxtLink>
     </template>
 
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submit">
       <!-- Email Address -->
       <div class="mt-4">
         <Label for="email">Email</Label>

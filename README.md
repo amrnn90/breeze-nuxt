@@ -88,18 +88,17 @@ const { user, logout } = useAuth();
 ```vue
 <script setup lang="ts">
 const data = reactive({
-  title: "lorem ipsum",
-  body: "lorem ipsum",
+  title: "lorem ipsumlorem ipsumlorem ipsumlorem ipsum",
+  body: "lorem ipsum lorem ipsumlorem ipsumlorem ipsum",
 });
 
-const { submit, inProgress, validationErrors, succeeded } = useSubmit(() =>
-  $larafetch("/api/posts", { method: "post", body: data })
-);
-
-async function createPost() {
-  const result = await submit();
-  if (succeeded.value) console.log("Post created successfully", result);
-}
+const {
+  submit: createPost,
+  inProgress,
+  validationErrors,
+} = useSubmit(() => $larafetch("/api/posts", { method: "post", body: data }), {
+  onSuccess: (result) => console.log("Post created successfully", result),
+});
 </script>
 
 <template>
