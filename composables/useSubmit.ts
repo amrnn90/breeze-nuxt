@@ -2,6 +2,7 @@ export type ValidationErrors = Record<string, string[]>;
 
 type UseSubmitOptions = {
   onSuccess?: (result: any) => any;
+  onError?: (error: Error) => any;
 };
 
 export function useSubmit<T>(
@@ -27,6 +28,7 @@ export function useSubmit<T>(
     } catch (e: any) {
       error.value = e;
       succeeded.value = false;
+      options?.onError?.(e);
       validationErrors.value = e.data?.errors;
 
       if (e.response?.status !== 422) throw e;
