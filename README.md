@@ -109,6 +109,35 @@ const {
 </template>
 ```
 
+## Utilities
+
+You have the following auto imported utilities in the `utils` directory:
+
+### $larafetch
+
+`$larafetch` is a wrapper around Nuxt's `$fetch` that makes it a breeze to make requests to your Laravel app:
+
+- Base URL is already set to `NUXT_PUBLIC_BACKEND_URL` value specified in your `.env` file.
+- Auto CSRF management.
+- Forwards the appropriate headers/cookies when in SSR context.
+- Redirects to `/login` page when the response contains one of these status codes: `401, 419`
+- Redirects to the `/verify-email` page when the response contains status code: `409`
+
+> **Note**  
+> To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `GET` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
+
+```vue
+<script setup lang="ts">
+const { data: posts } = await useAsyncData("posts", () =>
+  $larafetch("/api/posts")
+);
+</script>
+
+<template>
+  <pre>{{ posts }}</pre>
+</template>
+```
+
 ## Middleware
 
 You can use any of the provided middlewares in your pages:
@@ -138,35 +167,6 @@ definePageMeta({ middleware: ["auth"] });
 - `unverified`
 
   Only logged in users with unverified emails can access the page, otherwise redirect to `/login` page (if not logged in) or `/dashboard` page (if logged in). This is used only for the `/verify-email` page.
-
-## Utilities
-
-You have the following auto imported utilities in the `utils` directory:
-
-### $larafetch
-
-`$larafetch` is a wrapper around Nuxt's `$fetch` that makes it a breeze to make requests to your Laravel app:
-
-- Base URL is already set to `NUXT_PUBLIC_BACKEND_URL` value specified in your `.env` file.
-- Auto CSRF management.
-- Forwards the appropriate headers/cookies when in SSR context.
-- Redirects to `/login` page when the response contains one of these status codes: `401, 419`
-- Redirects to the `/verify-email` page when the response contains status code: `409`
-
-> **Note**  
-> To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `GET` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
-
-```vue
-<script setup lang="ts">
-const { data: posts } = await useAsyncData("posts", () =>
-  $larafetch("/api/posts")
-);
-</script>
-
-<template>
-  <pre>{{ posts }}</pre>
-</template>
-```
 
 ## License
 
