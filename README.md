@@ -88,8 +88,8 @@ const { user, logout } = useAuth();
 ```vue
 <script setup lang="ts">
 const data = reactive({
-  title: "lorem ipsumlorem ipsumlorem ipsumlorem ipsum",
-  body: "lorem ipsum lorem ipsumlorem ipsumlorem ipsum",
+  title: "lorem ipsum",
+  body: "lorem ipsum",
 });
 
 const {
