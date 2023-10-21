@@ -1,4 +1,5 @@
-import { $fetch, FetchOptions, FetchError } from "ofetch";
+import { $fetch, FetchOptions } from "ofetch";
+import { H3Event, EventHandlerRequest, parseCookies } from "h3";
 
 const CSRF_COOKIE = "XSRF-TOKEN";
 const CSRF_HEADER = "X-XSRF-TOKEN";
@@ -13,22 +14,20 @@ type ResponseType = keyof ResponseMap | "json";
 // end of copied types
 
 export type LarafetchOptions<R extends ResponseType> = FetchOptions<R> & {
-  redirectIfNotAuthenticated?: boolean;
-  redirectIfNotVerified?: boolean;
+  event?: H3Event<EventHandlerRequest> | null;
 };
 
 export async function $larafetch<T, R extends ResponseType = "json">(
   path: RequestInfo,
   {
-    redirectIfNotAuthenticated = true,
-    redirectIfNotVerified = true,
+    event = null,
     ...options
   }: LarafetchOptions<R> = {}
 ) {
   const { backendUrl, frontendUrl } = useRuntimeConfig().public;
-  const router = useRouter();
-
-  let token = useCookie(CSRF_COOKIE).value;
+  let token = event
+    ? parseCookies(event)[CSRF_COOKIE]
+    : useCookie(CSRF_COOKIE).value;
 
   // on client initiate a csrf request and get it from the cookie set by laravel
   if (
@@ -50,42 +49,23 @@ export async function $larafetch<T, R extends ResponseType = "json">(
   };
 
   if (process.server) {
+    const cookieString = event
+      ? event.headers.get("cookie")
+      : useRequestHeaders(["cookie"]).cookie;
+
     headers = {
       ...headers,
-      ...useRequestHeaders(["cookie"]),
+      cookie: cookieString,
       referer: frontendUrl,
     };
   }
 
-  try {
-    return await $fetch<T, R>(path, {
-      baseURL: backendUrl,
-      ...options,
-      headers,
-      credentials: "include",
-    });
-  } catch (error) {
-    if (!(error instanceof FetchError)) throw error;
-
-    // when any of the following redirects occur and the final throw is not caught then nuxt SSR will log the following error:
-    // [unhandledRejection] Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-
-    const status = error.response?.status ?? -1;
-
-    if (redirectIfNotAuthenticated && [401, 419].includes(status)) {
-      await router.push("/login");
-    }
-
-    if (redirectIfNotVerified && [409].includes(status)) {
-      await router.push("/verify-email");
-    }
-
-    if ([500].includes(status)) {
-      console.error("[Laravel Error]", error.data?.message, error.data);
-    }
-
-    throw error;
-  }
+  return await $fetch<T, R>(path, {
+    baseURL: backendUrl,
+    ...options,
+    headers,
+    credentials: "include",
+  });
 }
 
 async function initCsrf() {

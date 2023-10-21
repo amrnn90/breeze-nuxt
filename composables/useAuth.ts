@@ -100,9 +100,7 @@ export const useAuth = () => {
 
 export const fetchCurrentUser = async () => {
   try {
-    return await $larafetch<User>("/api/user", {
-      redirectIfNotAuthenticated: false,
-    });
+    return await $larafetch<User>("/api/user");
   } catch (error: any) {
     if ([401, 419].includes(error?.response?.status)) return null;
     throw error;
