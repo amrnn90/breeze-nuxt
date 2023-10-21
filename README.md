@@ -120,8 +120,6 @@ You have the following auto imported utilities in the `utils` directory:
 - Base URL is already set to `NUXT_PUBLIC_BACKEND_URL` value specified in your `.env` file.
 - Auto CSRF management.
 - Forwards the appropriate headers/cookies when in SSR context.
-- Redirects to `/login` page when the response contains one of these status codes: `401, 419`
-- Redirects to the `/verify-email` page when the response contains status code: `409`
 
 > **Note**  
 > To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `GET` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
@@ -137,6 +135,9 @@ const { data: posts } = await useAsyncData("posts", () =>
   <pre>{{ posts }}</pre>
 </template>
 ```
+
+> **Note**
+> When the response results in an error that is not caught, the global error handler inside `plugins/error-handler.ts` will redirect to `/login` if the status code is one of: [`401, 419`] or to `/verify-email` page when the status code is: `409`
 
 ## Middleware
 
