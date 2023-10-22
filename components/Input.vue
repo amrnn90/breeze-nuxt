@@ -1,10 +1,8 @@
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
-
 <script setup lang="ts">
+defineOptions({
+  inheritAttrs: false
+});
+
 type Props = {
   modelValue?: string | null;
   errors?: string[] | string;

@@ -1,11 +1,9 @@
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
-
 <script setup lang="ts">
 import { MenuItem } from "@headlessui/vue";
+
+defineOptions({
+  inheritAttrs: false,
+});
 </script>
 
 <template>
