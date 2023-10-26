@@ -61,6 +61,40 @@ npm run dev
 > **Note**  
 > Currently, we recommend using `localhost` during local development of your backend and frontend to avoid CORS "Same-Origin" issues.
 
+
+## Utilities
+
+You have the following auto imported utilities in the `utils` directory:
+
+### $larafetch
+
+`$larafetch` is a wrapper around Nuxt's `$fetch` that makes it a breeze to make requests to your Laravel app:
+
+- Base URL is already set to `NUXT_PUBLIC_BACKEND_URL` value specified in your `.env` file.
+- Auto CSRF management.
+- Forwards the appropriate headers/cookies when in SSR context.
+
+> **Note**  
+> To take advantage of Nuxt3 SSR Hydration when making `GET` requests, you should use the `useLarafetch` composable rather than directly calling `$larafetch`, otherwise your app will make additional unnecessary requests once the page loads in your browser (The same also applies to Nuxt's regular `$fetch` and `useFetch`).
+
+
+### createApiLarafetch
+
+`createApiLarafetch` is *only* needed for cases where you want to communicate with your Laravel backend from a Nuxt server API endpoint:
+
+```ts
+// server/api/hello.ts
+
+import { createApiLarafetch } from "../../utils/$larafetch";
+
+export default defineEventHandler((event) => {
+  const apiLarafetch = createApiLarafetch(event);
+
+  return apiLarafetch("/api/user");
+});
+
+```
+
 ## Composables
 
 ### useAuth
@@ -79,6 +113,23 @@ const { user, logout } = useAuth();
     <button @click="logout">Sign out</button>
   </div>
 </template>
+```
+
+### useLarafetch
+
+`useLarafetch` is a wrapper around Nuxt's `useFetch` which uses `$larafetch` instead of `$fetch`:
+
+```vue
+<script setup lang="ts">
+const { data: posts } = await useLarafetch("/api/posts");
+</script>
+
+<template>
+  <div>
+    <pre>{{ posts }}</pre>
+  </div>
+</template>
+
 ```
 
 ### useSubmit
@@ -108,36 +159,6 @@ const {
   </div>
 </template>
 ```
-
-## Utilities
-
-You have the following auto imported utilities in the `utils` directory:
-
-### $larafetch
-
-`$larafetch` is a wrapper around Nuxt's `$fetch` that makes it a breeze to make requests to your Laravel app:
-
-- Base URL is already set to `NUXT_PUBLIC_BACKEND_URL` value specified in your `.env` file.
-- Auto CSRF management.
-- Forwards the appropriate headers/cookies when in SSR context.
-
-> **Note**  
-> To take advantage of Nuxt3 SSR Hydration you should use this helper along with `useAsyncData` when making `GET` requests to fetch data, otherwise your app will make additional unnecessary requests once the page loads in your browser:
-
-```vue
-<script setup lang="ts">
-const { data: posts } = await useAsyncData("posts", () =>
-  $larafetch("/api/posts")
-);
-</script>
-
-<template>
-  <pre>{{ posts }}</pre>
-</template>
-```
-
-> **Note**
-> When the response results in an error that is not caught, the global error handler inside `plugins/error-handler.ts` will redirect to `/login` if the status code is one of: [`401, 419`] or to `/verify-email` page when the status code is: `409`
 
 ## Middleware
 
