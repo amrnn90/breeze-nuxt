@@ -12,4 +12,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["./utils"],
   },
+  experimental: {
+    asyncContext: true,
+  }
 });
