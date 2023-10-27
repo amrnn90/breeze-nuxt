@@ -17,8 +17,7 @@ export const $larafetch = $fetch.create({
         options?.method?.toLowerCase() ?? ""
       )
     ) {
-      await initCsrf();
-      token = useCookie(CSRF_COOKIE).value;
+      token = await initCsrf();
     }
 
     let headers: any = {
@@ -70,17 +69,14 @@ export const createApiLarafetch = (event: H3Event) =>
 
 async function initCsrf() {
   const { backendUrl } = useRuntimeConfig().public;
+  const existingToken = useCookie(CSRF_COOKIE).value;
+
+  if (existingToken) return existingToken;
 
   await $fetch("/sanctum/csrf-cookie", {
     baseURL: backendUrl,
     credentials: "include",
   });
-}
 
-// https://github.com/axios/axios/blob/bdf493cf8b84eb3e3440e72d5725ba0f138e0451/lib/helpers/cookies.js
-function getCookie(name: string) {
-  const match = document.cookie.match(
-    new RegExp("(^|;\\s*)(" + name + ")=([^;]*)")
-  );
-  return match ? decodeURIComponent(match[3]) : null;
+  return useCookie(CSRF_COOKIE).value;
 }
