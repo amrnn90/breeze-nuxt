@@ -23,14 +23,14 @@ export type ResetPasswordCredentials = {
 };
 
 // Value is initialized in: ~/plugins/auth.ts
-export const useUser = () => {
-  return useState<User | undefined | null>("user", () => undefined);
+export const useUser = <T = User>() => {
+  return useState<T | undefined | null>("user", () => undefined);
 };
 
-export const useAuth = () => {
+export const useAuth = <T = User>() => {
   const router = useRouter();
 
-  const user = useUser();
+  const user = useUser<T>();
   const isLoggedIn = computed(() => !!user.value);
 
   async function refresh() {
@@ -98,9 +98,9 @@ export const useAuth = () => {
   };
 };
 
-export const fetchCurrentUser = async () => {
+export const fetchCurrentUser = async <T = User>() => {
   try {
-    return await $larafetch<User>("/api/user");
+    return await $larafetch<T>("/api/user");
   } catch (error: any) {
     if ([401, 419].includes(error?.response?.status)) return null;
     throw error;
