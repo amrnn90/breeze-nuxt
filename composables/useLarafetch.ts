@@ -12,7 +12,6 @@ export function useLarafetch<T>(
         console.error(
           "[Laravel Error]",
           response.statusText,
-          ":",
           response._data
         );
       }
