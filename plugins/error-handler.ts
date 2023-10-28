@@ -6,10 +6,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
     const status = error.response?.status ?? -1;
 
-    if ([500].includes(status)) {
-      console.error("[Laravel Error]", error.data?.message, error.data);
-    }
-
     if ([401, 419].includes(status)) {
       navigateTo("/login");
     }

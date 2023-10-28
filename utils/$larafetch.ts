@@ -1,4 +1,4 @@
-import { $fetch } from "ofetch";
+import { $fetch, FetchError } from "ofetch";
 import { parseCookies } from "h3";
 
 const CSRF_COOKIE = "XSRF-TOKEN";
@@ -43,6 +43,12 @@ export const $larafetch = $fetch.create({
 
     options.headers = headers;
     options.baseURL = backendUrl;
+  },
+  async onResponseError({ response }) {
+    const status = response.status;
+    if ([500].includes(status)) {
+      console.error("[Laravel Error]", response.statusText, response._data);
+    }
   },
 });
 

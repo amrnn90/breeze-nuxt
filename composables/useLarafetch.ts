@@ -9,11 +9,7 @@ export function useLarafetch<T>(
     async onResponseError({ response }) {
       const status = response.status;
       if ([500].includes(status)) {
-        console.error(
-          "[Laravel Error]",
-          response.statusText,
-          response._data
-        );
+        console.error("[Laravel Error]", response.statusText, response._data);
       }
 
       if ([401, 419].includes(status)) {
