@@ -77,24 +77,6 @@ You have the following auto imported utilities in the `utils` directory:
 > **Note**  
 > To take advantage of Nuxt3 SSR Hydration when making `GET` requests, you should use the `useLarafetch` composable rather than directly calling `$larafetch`, otherwise your app will make additional unnecessary requests once the page loads in your browser (The same also applies to Nuxt's regular `$fetch` and `useFetch`).
 
-
-### createApiLarafetch
-
-`createApiLarafetch` is *only* needed for cases where you want to communicate with your Laravel backend from a Nuxt server API endpoint:
-
-```ts
-// server/api/hello.ts
-
-import { createApiLarafetch } from "../../utils/$larafetch";
-
-export default defineEventHandler((event) => {
-  const apiLarafetch = createApiLarafetch(event);
-
-  return apiLarafetch("/api/user");
-});
-
-```
-
 ## Composables
 
 ### useAuth
