@@ -29,7 +29,7 @@ export function useSubmit<T>(
       error.value = e;
       succeeded.value = false;
       options?.onError?.(e);
-      validationErrors.value = e.data?.errors;
+      validationErrors.value = e.data?.errors ?? {};
 
       if (e.response?.status !== 422) throw e;
     } finally {
