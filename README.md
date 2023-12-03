@@ -62,6 +62,19 @@ npm run dev
 > Currently, we recommend using `localhost` during local development of your backend and frontend to avoid CORS "Same-Origin" issues.
 
 
+**Alternatively**, you can use [concurrently](https://github.com/open-cli-tools/concurrently) to run both servers of Nuxt and Laravel with a single command.
+
+```bash
+# Install concurrently
+npm install --save-dev concurrently
+```
+Then add this script to `package.json` (this assumes your Laravel app lives in `../backend` relative to your Nuxt app):
+```json
+  "scripts": {
+    "dev:fullstack": "concurrently --names 'LARAVEL,NUXT' --prefix-colors 'yellow,blue' --kill-others 'cd ../backend/ && php artisan serve' 'nuxi dev'",
+  },
+```
+
 ## Utilities
 
 You have the following auto imported utilities in the `utils` directory:
