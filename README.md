@@ -12,9 +12,9 @@ First, create a Nuxt3 compatible Laravel backend by installing Laravel Breeze in
 
 ```bash
 # Create the Laravel application...
-laravel new nuxt-backend
+laravel new backend
 
-cd nuxt-backend
+cd backend
 
 # Install Breeze and dependencies...
 composer require laravel/breeze --dev
