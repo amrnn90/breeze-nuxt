@@ -8,7 +8,7 @@ export const $larafetch = $fetch.create({
   credentials: "include",
   async onRequest({ request, options }) {
     const { backendUrl, frontendUrl } = useRuntimeConfig().public;
-    const event = process.nitro ? useEvent() : null;
+    const event = typeof useEvent === "function" ? useEvent() : null;
     let token = event
       ? parseCookies(event)[CSRF_COOKIE]
       : useCookie(CSRF_COOKIE).value;
