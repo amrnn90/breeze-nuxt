@@ -1,4 +1,3 @@
-{
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -9,9 +8,8 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.1.3",
     "@tailwindcss/forms": "^0.5.2",
-    "nuxt": "^3.0.0"
+    "nuxt": "^3.9.1"
   },
   "dependencies": {
     "@headlessui/vue": "^1.6.5"
   }
-}
